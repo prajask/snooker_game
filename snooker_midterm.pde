@@ -26,7 +26,9 @@ final String MOVE_LEFT_SLOW = "left_slow";
 final String MOVE_LEFT_MEDIUM = "left_medium";
 final String MOVE_LEFT_FAST = "left_fast";
 
-final String HIT = "hit";
+final String HIT_SLOW = "hit_slow";
+final String HIT_MEDIUM = "hit_medium";
+final String HIT_FAST = "hit_fast";
 
 void setup() {
   printArray(Serial.list());
@@ -92,8 +94,16 @@ void serialEvent(Serial controllerPort) {
     angle += ANGLE_STEP_FAST;
   }
   
-  if(command.equalsIgnoreCase(HIT)){
+  if(command.equalsIgnoreCase(HIT_SLOW)){
     startTime = millis();
-    velocity = new PVector(random(1, 100), 0);
+    velocity = new PVector(33, 0);
+  }
+  else if(command.equalsIgnoreCase(HIT_MEDIUM)){
+    startTime = millis();
+    velocity = new PVector(66, 0);
+  }
+  else if(command.equalsIgnoreCase(HIT_FAST)){
+    startTime = millis();
+    velocity = new PVector(99, 0);
   }
 }
