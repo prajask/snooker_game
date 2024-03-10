@@ -2,7 +2,10 @@ import processing.serial.*;
 
 Serial controllerPort;
 
-final float ANGLE_STEP = 5;
+final float ANGLE_STEP_SLOW = 5;
+final float ANGLE_STEP_MEDIUM = 10;
+final float ANGLE_STEP_FAST = 15;
+
 float angle = -90;
 
 int xValue = -300;
@@ -15,8 +18,14 @@ int startTime;
 
 boolean isHit = false;
 
-final String MOVE_RIGHT = "right";
-final String MOVE_LEFT = "left";
+final String MOVE_RIGHT_SLOW = "right_slow";
+final String MOVE_RIGHT_MEDIUM = "right_medium";
+final String MOVE_RIGHT_FAST = "right_fast";
+
+final String MOVE_LEFT_SLOW = "left_slow";
+final String MOVE_LEFT_MEDIUM = "left_medium";
+final String MOVE_LEFT_FAST = "left_fast";
+
 final String HIT = "hit";
 
 void setup() {
@@ -63,12 +72,24 @@ void serialEvent(Serial controllerPort) {
   command = trim(command);
   command = command.replace("\r", "");
   
-  if(command.equalsIgnoreCase(MOVE_RIGHT)){
-    angle -= ANGLE_STEP;
+  if(command.equalsIgnoreCase(MOVE_RIGHT_SLOW)){
+    angle -= ANGLE_STEP_SLOW;
+  }
+  else if(command.equalsIgnoreCase(MOVE_RIGHT_MEDIUM)){
+    angle -= ANGLE_STEP_MEDIUM;
+  }
+  else if(command.equalsIgnoreCase(MOVE_RIGHT_FAST)){
+    angle -= ANGLE_STEP_FAST;
   }
   
-  if(command.equalsIgnoreCase(MOVE_LEFT)){
-    angle += ANGLE_STEP;
+  if(command.equalsIgnoreCase(MOVE_LEFT_SLOW)){
+    angle += ANGLE_STEP_SLOW;
+  }
+  else if(command.equalsIgnoreCase(MOVE_LEFT_MEDIUM)){
+    angle += ANGLE_STEP_MEDIUM;
+  }
+  else if(command.equalsIgnoreCase(MOVE_LEFT_FAST)){
+    angle += ANGLE_STEP_FAST;
   }
   
   if(command.equalsIgnoreCase(HIT)){
