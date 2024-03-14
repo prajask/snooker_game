@@ -40,7 +40,7 @@ void setup() {
   size(800, 1000);
   strokeWeight(4);
   
-  position = new PVector(0, 0);
+  position = new PVector(random(800), random(1000));
   
   startTime = -2501;
 }
@@ -57,8 +57,16 @@ void draw() {
     xValue = 0;
     position.add(velocity);
     
-    if ((position.x > width/2) || (position.x < -width/2))
-      velocity.x *= -1;
+    int whichWall = isOffScreen(position);
+    if (whichWall > 0) {
+      if (whichWall % 2 == 1) {
+        velocity.rotate(PI - 2 * velocity.heading());
+      }
+      else {
+        velocity.rotate(-2 * velocity.heading()); 
+      }
+    }
+    
   }
   else{
     xValue = -300;
@@ -67,6 +75,19 @@ void draw() {
   
   line(xValue, yValue, 0, 0);
   ellipse(position.x, position.y, 60, 60);
+}
+
+int isOffScreen(PVector position) {
+  if (position.x < -width/2)
+    return 1; // W
+  if (position.y > height/2)
+    return 2; // S
+  if (position.x > width/2)
+    return 3; // E
+  if (position.y < -height/2)
+    return 4; // N
+
+  return 0; 
 }
 
 void serialEvent(Serial controllerPort) {
